@@ -1,16 +1,9 @@
 //*******************************************************************************
-// * CS 103 Twenty-One (Blackjack) PA
+// * Twenty-One (Blackjack) PA
 // * Name: Padmanabha Kavasseri
-// * USC email: kavasser@usc.edu
-// * Comments (you want us to know):
-//*
-//*
 // ******************************************************************************/
-
-// Add other #includes if you need
 #include <iostream>
 #include <cstdlib>
-
 using namespace std;
 
 /* Prototypes */
@@ -23,59 +16,42 @@ int getBestScore(int hand[], int numCards);
 const int NUM_CARDS = 52;
 int aceCount = 0;
 
-/**
- * Global arrays to be used as look-up tables, if desired.
- * It is up to you if and how you want to use these
- */
+//Global arrays to be used as tables
 const char suit[4] = {'H','S','D','C'};
 const char* type[13] =
         {"2","3","4","5","6","7",
          "8","9","10","J","Q","K","A"};
 const int value[13] = {2,3,4,5,6,7,8,9,10,10,10,10,11};
 
-/**
- * Should permute the deck of cards, effectively shuffling it.
- * You must use the Fisher-Yates / Durstenfeld shuffle algorithm
- *  described in the assignment writeup.
- */
-void shuffle(int cards[])
-{
+//Shuffling the cards using the Fisher-Yates / Durstenfeld shuffle algorithm
+void shuffle(int cards[]){
+    //initializing the deck    
     for(int i =0; i<52; i++){
         cards[i]=i;
     }
-
+    Fisher-Yates / Durstenfeld shuffle algorithm
     for(int i=51; i>0; i--) {
         int j = rand() % (i+1);
         int x = cards[i];
         cards[i] = cards[j];
         cards[j] = x;
     }
-    //for(int i =0; i<52; i++){
-    //    cout << cards[i] << " ";
-    //}
-    //cout << endl;
 }
 
-/**
- * Prints the card in a "pretty" format:   "type-suit"
- *  Examples:  K-C  (King of clubs), 2-H (2 of hearts)
- *  Valid Types are: 2,3,4,5,6,7,8,9,10,J,Q,K,A
- *  Valid Suits are: H, D, C, S
- */
+
+//Prints the card in a "pretty" format:   "type-suit" 
 void printCard(int id)
 {
     cout << type[id%13] << "-" << suit[id/13];
 }
 
-/**
- * Returns the numeric value of the card.
- *  Should return 11 for an ACE and can then.
- *  be adjusted externally based on the sum of the score.
+/*
+ *  Returns the numeric value of the card.
+ *  Should return 11 for an ACE or 1 depending on the sum of the score
  */
 int cardValue(int id)
 {
     int num = id % 13;
-
     if (num <= 8){
         return num+2;
     }
@@ -89,13 +65,8 @@ int cardValue(int id)
         return num;
     }
 }
-//reactnative
-//no310withhalfond
-/**
- * Should print out each card in the hand separated by a space and
- * then print a newline at the end.
- * Should use printCard() to print out each card.
- */
+
+//Prints out each hand in the card using printCard()
 void printHand(int hand[9], int numCards)
 {
 
@@ -107,10 +78,10 @@ void printHand(int hand[9], int numCards)
 
 }
 
-/**
+/*
  * Should return the total score of the provided hand.
  * ACES should be treated as 11s to make the highest possible hand
- *  and only being reduced to 1s as needed to avoid busting.
+ * and only being reduced to 1s as needed to avoid busting.
  */
 int getBestScore(int hand[], int numCards)
 {
@@ -122,25 +93,17 @@ int getBestScore(int hand[], int numCards)
             ace_counter++;
         }
         score += cval;
-
     }
-
     if((score>21) && (ace_counter != 0)){
         score -= 10;
         ace_counter--;
     }
-    //cout << score << endl;
     return score;
 }
 
-/**
- * Main program logic for the game of 21
- */
+//the main program for Blackjack
 int main(int argc, char* argv[])
 {
-    //---------------------------------------
-    // Do not change this code -- Begin
-    //---------------------------------------
     if(argc < 2){
         cout << "Error - Please provide the seed value." << endl;
         return 1;
@@ -151,11 +114,7 @@ int main(int argc, char* argv[])
     int cards[52];
     int dhand[9];
     int phand[9];
-    //---------------------------------------
-    // Do not change this code -- End
-    //---------------------------------------
-
-    /******** You complete ****************/
+        
     //variables required
     char response;
     char again;
@@ -163,10 +122,9 @@ int main(int argc, char* argv[])
     int pscore = 0;
     int dscore = 0;
 
-    //cout << cardValue(2) << " " << cardValue(6) << endl;
+    //while a game is being played    
     while (play == true) {
-
-        int cardnumber=3;// remember to reset after a game
+        int cardnumber=3;
         int phandcnt = 1;
         int dhandcnt = 1;
         bool win = false;
@@ -204,7 +162,6 @@ int main(int argc, char* argv[])
             //cout << "1st while" << endl;
             while (pscore < 21)
             {
-                //cout << "2st while" << endl;
                 cout << "Type 'h' to hit and 's' to stay:" << endl;
                 cin >> response;
                 if ((response == 'h') || (response == 's')) {
@@ -237,7 +194,6 @@ int main(int argc, char* argv[])
         }
         //dealer
         while (ddone == false) {
-            //cout << "bib" << endl;
             //dealer black jack automatically wins
             if (dscore == 21) {
                 ddone = true;
